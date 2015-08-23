@@ -13,30 +13,56 @@ knit        : slidify::knit2slides
 
 ## How much do you know about the world?
 
-Include image here
+<img src="app_screenshot.png" style="width: 800px;"></img>
 
---- .class #id
+---
 
 ## Application Overview
 
 - Web application for learning country statistics
 - Based on OECD 2014 Factbook data
-- Simple Question and Answer interface
+- Simple question-and-answer interface
+- Answers include plots that are easy to understand
 - Questions are auto-generated from the data
 
-Include OECD.Stat Logo here
+<img src="externalLogo-en.gif" style="margin-top:100px"></img>
 
 ---
 
 ## Implementation
 
-1. Shiny server randomly picks a statistic (ex. Population) and picks two countries in the data
-2. Questions and options are generated based on the data
-3. Provide feedback by showing the value and a plot
+1. Shiny server randomly picks a statistic (ex. population, GDP per capita) and picks two countries in the OECD Factbook data.
 
-Include some R code here
+```
+## [1] "Population"
+```
+
+```
+## $country
+## [1] "Hungary"
+## 
+## $value
+## [1] 9920.361
+```
+
+```
+## $country
+## [1] "Japan"
+## 
+## $value
+## [1] 127515
+```
 
 ---
+
+## Implementation
+
+<ol start="2">
+    <li>Questions and options are generated based on the data.</li>
+    <li>Provide feedback by showing the values in a plot.</li>
+</ol>
+
+![plot of chunk unnamed-chunk-4](assets/fig/unnamed-chunk-4-1.png) 
 
 ## Further Directions
 

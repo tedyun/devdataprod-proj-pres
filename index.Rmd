@@ -13,9 +13,9 @@ knit        : slidify::knit2slides
 
 ## How much do you know about the world?
 
-Include image here
+<img src="app_screenshot.png" style="width: 800px;"></img>
 
---- .class #id
+---
 
 ## Application Overview
 
@@ -25,19 +25,100 @@ Include image here
 - Answers include plots that are easy to understand
 - Questions are auto-generated from the data
 
-Include OECD.Stat Logo here
+<img src="externalLogo-en.gif" style="margin-top:100px"></img>
 
 ---
 
 ## Implementation
 
-1. Shiny server randomly picks a statistic (ex. Population) and picks two countries in the data
-2. Questions and options are generated based on the data
-3. Provide feedback by showing the value and a plot
+1. Shiny server randomly picks a statistic (ex. population, GDP per capita) and picks two countries in the OECD Factbook data.
+```{r echo=FALSE}
+set.seed(1)
 
-Include some R code here
+excludeCountries <- c(
+    "OECD - Total",
+    "OECD - Average",
+    "Euro area (17 countries)",
+    "European Union (28 countries)"
+)
+
+factbookData <- read.csv("FACTBOOK2014_2012.csv", header=TRUE)
+names(factbookData)[1] <- "SUB"
+factbookData <- factbookData[-which(factbookData$Country %in% excludeCountries),]
+
+sampleIntegers <- function(n, k){
+    return(sample(1:n, k, replace = FALSE))
+}
+
+generateQuestionData <- function (statKey) {
+    rows <- factbookData[(factbookData$SUB == statKey),]
+    indices <- sampleIntegers(nrow(rows), 2)
+    result1 <- list()
+    index1 <- indices[1]
+    result1$country <- as.vector(rows$Country[index1])
+    result1$value <- rows$Value[index1]
+    
+    result2 <- list()
+    index2 <- indices[2]
+    result2$country <- as.vector(rows$Country[index2])
+    result2$value <- rows$Value[index2]
+    
+    result <- list(result1, result2)
+    
+    unit <- rows$Unit[index1]
+    powercode <- rows$PowerCode[index1]
+    if (powercode != "units") {
+        unit <- paste(powercode, unit)
+    }
+    
+    result$unit <- unit
+    
+    result$answer <- if (result1$value > result2$value) "opt1"
+                     else if (result1$value < result2$value) "opt2"
+                     else "unknown"
+    return(
+        if (result$answer != "unknown") result
+        else generateQuestionData(statKey)
+    )
+}
+questionData <- generateQuestionData("EVOPOP_T1")
+statNames <- c(
+    "GDP Per Capita",
+    "Population",
+    "Household Net Saving Rates",
+    "Electricity Generation",
+    "Average Hours Worked"
+)
+statNames[[2]]
+```
+```{r echo=FALSE}
+questionData[[1]]
+```
+```{r echo=FALSE}
+questionData[[2]]
+```
 
 ---
+
+## Implementation
+
+<ol start="2">
+    <li>Questions and options are generated based on the data.</li>
+    <li>Provide feedback by showing the values in a plot.</li>
+</ol>
+
+```{r echo=FALSE, fig.width=4, fig.height=3}
+library(ggplot2)
+qplot(c(questionData[[1]]$country, questionData[[2]]$country), c(questionData[[1]]$value, questionData[[2]]$value), geom="bar",
+      main="Population", stat="identity",
+      xlab="", ylab=questionData$unit) +
+theme(
+    panel.background = element_rect(fill = "transparent",colour = NA),
+    panel.grid.minor = element_blank(), 
+    panel.grid.major = element_blank(),
+    plot.background = element_rect(fill = "transparent",colour = NA)
+)
+```
 
 ## Further Directions
 

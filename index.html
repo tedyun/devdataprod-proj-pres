@@ -46,13 +46,13 @@
     <h2>How much do you know about the world?</h2>
   </hgroup>
   <article data-timings="">
-    <p>Include image here</p>
+    <p><img src="app_screenshot.png" style="width: 800px;"></img></p>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="class" id="id" style="background:;">
+<slide class="" id="slide-2" style="background:;">
   <hgroup>
     <h2>Application Overview</h2>
   </hgroup>
@@ -60,11 +60,12 @@
     <ul>
 <li>Web application for learning country statistics</li>
 <li>Based on OECD 2014 Factbook data</li>
-<li>Simple Question and Answer interface</li>
+<li>Simple question-and-answer interface</li>
+<li>Answers include plots that are easy to understand</li>
 <li>Questions are auto-generated from the data</li>
 </ul>
 
-<p>Include OECD.Stat Logo here</p>
+<p><img src="externalLogo-en.gif" style="margin-top:100px"></img></p>
 
   </article>
   <!-- Presenter Notes -->
@@ -76,12 +77,25 @@
   </hgroup>
   <article data-timings="">
     <ol>
-<li>Shiny server randomly picks a statistic (ex. Population) and picks two countries in the data</li>
-<li>Questions and options are generated based on the data</li>
-<li>Provide feedback by showing the value and a plot</li>
+<li>Shiny server randomly picks a statistic (ex. population, GDP per capita) and picks two countries in the OECD Factbook data.</li>
 </ol>
 
-<p>Include some R code here</p>
+<pre><code>## [1] &quot;Population&quot;
+</code></pre>
+
+<pre><code>## $country
+## [1] &quot;Hungary&quot;
+## 
+## $value
+## [1] 9920.361
+</code></pre>
+
+<pre><code>## $country
+## [1] &quot;Japan&quot;
+## 
+## $value
+## [1] 127515
+</code></pre>
 
   </article>
   <!-- Presenter Notes -->
@@ -89,10 +103,19 @@
 
 <slide class="" id="slide-4" style="background:;">
   <hgroup>
-    <h2>Further Directions</h2>
+    <h2>Implementation</h2>
   </hgroup>
   <article data-timings="">
-    <ul>
+    <ol start="2">
+    <li>Questions and options are generated based on the data.</li>
+    <li>Provide feedback by showing the values in a plot.</li>
+</ol>
+
+<p><img src="assets/fig/unnamed-chunk-4-1.png" alt="plot of chunk unnamed-chunk-4"> </p>
+
+<h2>Further Directions</h2>
+
+<ul>
 <li>Include interactive plot for questions and answers </li>
 <li>Include more data</li>
 <li>Include time-series related questions (ex. how GDP of a country changed over last 5 years)</li>
@@ -126,7 +149,7 @@
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=4 title='Further Directions'>
+        data-slide=4 title='Implementation'>
          4
       </a>
     </li>
